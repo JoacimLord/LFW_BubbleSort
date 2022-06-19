@@ -13,6 +13,6 @@ Use the settings to control the amount of "pillars" and when to sort them (inclu
 
 # About
 
-Visualization of the bubble sort algorithm created with my framework LFW ("The Luna Framework").
+Visualization of the bubble sort algorithm created with my framework LFW ("The Luna Framework") using a dataoriented approach!
 
 Thanks for using my framework in your own project <3
