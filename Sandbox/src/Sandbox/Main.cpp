@@ -12,6 +12,7 @@ namespace BubbleSort {
 
 	static float amount = 10;
 	static int sortedAmount = 0; //NEEDS to be in namespace for functionality
+	static float pillarWidth = 0.0f; //NEEDS to be in namespace for functionality
 
 	glm::vec4 Red = { 1.0f, 0.0f, 0.0f,1.0f };
 	glm::vec4 Green = { 0.0f, 1.0f, 0.0f, 1.0f };
@@ -42,6 +43,11 @@ namespace BubbleSort {
 		sort = true;
 	}
 
+	int GetAmountOfStartingElements()
+	{
+		return amount;
+	}
+
 	int GetSortedAmountOfPillars()
 	{
 		return sortedAmount;
@@ -49,6 +55,10 @@ namespace BubbleSort {
 	int GetPillarAmount()
 	{
 		return myRandomVector.size();
+	}
+	float GetPillarWidth()
+	{
+		return pillarWidth;
 	}
 
 	void Reset()
@@ -112,7 +122,7 @@ namespace BubbleSort {
 	}
 
 	//Add scale (X) as parameter
-	void Render() //GetPillarWidth(float xWidth)
+	void Render(float width) //GetPillarWidth(float xWidth)
 	{
 		/*
 			x = 5, 260 in amount covers screen
@@ -121,7 +131,7 @@ namespace BubbleSort {
 		for (int i = 0; i < myRandomVector.size(); i++)
 		{
 			myRandomVector[i].transform.Scale.y = myRandomVector[i].value;
-			myRandomVector[i].transform.Scale.x = 5; //Works with 260x in amount
+			myRandomVector[i].transform.Scale.x = width; //Works with 260x in amount
 
 			myRandomVector[i].transform.Translation.y = 0;
 			myRandomVector[i].transform.Translation.x = i * myRandomVector[i].transform.Scale.x;
@@ -135,9 +145,9 @@ void Luna::Application::BuildUI()
 {
 	ImGui::Begin("Bubblesort Settings");
 
-
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::SliderFloat("Amount of pillars &f", &BubbleSort::amount, 0, 1000);
+		ImGui::SliderFloat("Amount of pillars", &BubbleSort::amount, 0, 10000);
+		ImGui::SliderFloat("Pillar width", &BubbleSort::pillarWidth, 0, 10);
 
 		ImGui::Text("Amount of pillars in scene %d", BubbleSort::GetPillarAmount());
 		ImGui::Text("Sorted pillars %d", BubbleSort::GetSortedAmountOfPillars());
@@ -180,9 +190,9 @@ int main()
 
 		//BubbleSort (Dataoriented approach)!
 		{
-			BubbleSort::Add(BubbleSort::amount); // Takes amount (int)
+			BubbleSort::Add(BubbleSort::GetAmountOfStartingElements()); // Takes amount (int)
 			BubbleSort::Sort(BubbleSort::GetSortState()); //Check if sorting can begin
-			BubbleSort::Render(); //Renders
+			BubbleSort::Render(BubbleSort::GetPillarWidth()); //Renders
 		}
 
 		app.Display();
