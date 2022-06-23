@@ -41,7 +41,6 @@ namespace Luna {
 		void EndRenderFrame();
 
 	public:
-		void OnUIRender();
 
 		void BindFramebuffer(float r, float g, float b, float transparent);
 		void UnbindFramebuffer();

@@ -10,11 +10,11 @@ namespace BubbleSort {
 	static bool sort = false;
 	static bool isAdding = false;
 
-	static float amount = 10;
-	static int sortedAmount = 0; //NEEDS to be in namespace for functionality
-	static float pillarWidth = 0.0f; //NEEDS to be in namespace for functionality
+	static float amount = 10.0f;
+	static int sortedAmount = 0;
+	static float pillarWidth = 5.0f;
 
-	glm::vec4 Red = { 1.0f, 0.0f, 0.0f,1.0f };
+	glm::vec4 Red = { 1.0f, 0.0f, 0.0f, 1.0f };
 	glm::vec4 Green = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 	struct Pillar

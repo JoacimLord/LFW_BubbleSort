@@ -13,7 +13,7 @@
 
 
 namespace Luna {
-	//temp
+
 	ImVec2 m_ViewportSize = { 0.0f, 0.0f };
 	ImVec2 m_ViewportBounds[2];
 
@@ -49,7 +49,7 @@ namespace Luna {
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetOriginalWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410"); //???
+		ImGui_ImplOpenGL3_Init("#version 410");
 
 		//Set framebuffer
 		Luna::FramebufferSpecification spec;
@@ -118,22 +118,16 @@ namespace Luna {
 				window_flags |= ImGuiWindowFlags_NoBackground;
 
 
-			//if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight))
-			//{
-			//	std::cout << "Right msbtn pressed\n";
-			//	return;
-			//}
-
-
 			//----------------------------------------------
-			//					MAIN WINDOW
+			//			MAIN WINDOW (DOCKSPACE)
 			//----------------------------------------------
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-
+			
 			//==============================================
-			//New name based on string?
-			ImGui::Begin("Luna Editor", &dockspaceOpen, window_flags);
+			//Dockspace
+			//==============================================
+			ImGui::Begin("LFW Dockspace", &dockspaceOpen, window_flags);
 
 
 			ImGui::PopStyleVar();
@@ -146,8 +140,8 @@ namespace Luna {
 			ImGuiStyle& style = ImGui::GetStyle();
 			float minWinSizeX = style.WindowMinSize.x;
 
-			//This controls all windows.
-			//Thats why the scenepanel cant get smaller than 370.0f!
+			//This sets the minimum width to 370. 
+			//TODO: change to set this with a function from Application::SetMinimumPanelWidth(); Can be annyoing if they're used for UI elements (in game dev).
 			style.WindowMinSize.x = 370.0f;
 			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 			{
@@ -156,23 +150,6 @@ namespace Luna {
 			}
 
 			style.WindowMinSize.x = minWinSizeX;
-
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginMenu("File"))
-				{
-					if (ImGui::MenuItem("Close")) { Application::Get().OnGUIClose(); }
-
-					//CHANGE ORDER OF THESE!
-					//if (ImGui::MenuItem("New", "Ctrl+N"))	NewScene();
-					//if (ImGui::MenuItem("Open...", "Ctrl+O"))	OpenScene();
-					//if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) SaveSceneAs();
-
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenuBar();
-			}
 
 			//----------------------------------------------
 			//					VIEWPORT
@@ -202,31 +179,9 @@ namespace Luna {
 
 			ImGui::End();
 
-
-			//---------------------------------------------------
-			//					DEMO WINDOW
-			//---------------------------------------------------
-			// if()
-
-			//if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
-
-			if (showDemo) { OnUIRender(); }
 			Luna::Application::BuildUI();
-
 	}
 
-
-	//USER-DEFINED
-	void UI::OnUIRender()
-	{
-		ImGui::Begin("Demo");
-		ImGui::Text("Click for ImGui Demo Window");
-		ImGui::Checkbox("Demo", &m_DemoGuiWindow);
-		if (m_DemoGuiWindow) { ImGui::ShowDemoWindow(&m_DemoGuiWindow); }
-		ImGui::End();
-	}
-
-	//Used in app
 	void UI::EndRenderFrame()
 	{
 		ImGuiIO& io = ImGui::GetIO();
