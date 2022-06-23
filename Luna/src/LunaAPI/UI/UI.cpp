@@ -129,7 +129,6 @@ namespace Luna {
 			//==============================================
 			ImGui::Begin("LFW Dockspace", &dockspaceOpen, window_flags);
 
-
 			ImGui::PopStyleVar();
 
 			if (opt_fullscreen)
