@@ -1,8 +1,9 @@
-# The Luna Framework(LFW) - Visualization (Bubble Sort Algorithm)
+# # LFW (The Luna Framework) - Visualization (Bubble Sort Algorithm)
 
 # Disclaimer
 
-This demo was written with an old version of the API and it might have changed since then.
+This demo was written with an old version of the API and has been changed alot since then.
+The functionality reached from main.cpp is working the same way.
 
 
 # How To Get Started
@@ -13,6 +14,4 @@ Use the settings to control the amount of "pillars" and when to sort them (inclu
 
 # About
 
-Visualization of the bubble sort algorithm created with my framework LFW ("The Luna Framework") using a dataoriented approach!
-
-Thanks for using my framework in your own project <3
+Visualization of the bubble sort algorithm written with 'LFW'.

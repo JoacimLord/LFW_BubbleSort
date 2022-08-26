@@ -14,8 +14,6 @@ namespace BubbleSort {
 	static int sortedAmount = 0;
 	static float pillarWidth = 5.0f;
 
-	glm::vec4 Red = { 1.0f, 0.0f, 0.0f, 1.0f };
-	glm::vec4 Green = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 	struct Pillar
 	{
@@ -25,7 +23,7 @@ namespace BubbleSort {
 		bool hasBeenSorted = false;
 	};
 
-	std::vector<Pillar> myRandomVector;
+	std::vector<Pillar> pillars;
 
 
 	bool GetStartState()
@@ -54,7 +52,7 @@ namespace BubbleSort {
 	}
 	int GetPillarAmount()
 	{
-		return myRandomVector.size();
+		return pillars.size();
 	}
 	float GetPillarWidth()
 	{
@@ -63,7 +61,7 @@ namespace BubbleSort {
 
 	void Reset()
 	{
-		myRandomVector.clear();
+		pillars.clear();
 		sort = false;
 		add = false;
 		sortedAmount = 0;
@@ -74,7 +72,7 @@ namespace BubbleSort {
 		if (add)
 		{
 			isAdding = true;
-			if (myRandomVector.size() < amount)
+			if (pillars.size() < amount)
 			{
 				for (int i = 0; i < 1; i++)
 				{
@@ -84,7 +82,7 @@ namespace BubbleSort {
 					int random = std::rand() % 1000 + 1; //Optionable?
 
 					pillar.value = random;
-					myRandomVector.push_back(pillar);
+					pillars.push_back(pillar);
 				}
 			}
 		}
@@ -95,29 +93,29 @@ namespace BubbleSort {
 	void Sort(bool sort)
 	{
 		isAdding = false;
-		if (sort && !isAdding && sortedAmount < myRandomVector.size())
+		if (sort && !isAdding && sortedAmount < pillars.size())
 		{
 			for (int i = 0; i < 1; i++)
 			{
-				for (int j = 0; j < myRandomVector.size() - i - 1; j++)
+				for (int j = 0; j < pillars.size() - i - 1; j++)
 				{
-					float tempA = myRandomVector[j].value;
-					float tempB = myRandomVector[j + 1].value;
+					float tempA = pillars[j].value;
+					float tempB = pillars[j + 1].value;
 					//float tempB = myRandomVector[static_cast<std::vector<Pillar, std::allocator<Pillar>>::size_type>(j) + 1].value;
 
 					if (tempA > tempB)
 					{
-						myRandomVector[j] = myRandomVector[j + 1];
-						myRandomVector[j + 1].value = tempA;
+						pillars[j] = pillars[j + 1];
+						pillars[j + 1].value = tempA;
 
-						myRandomVector[j].color = Red;
-						myRandomVector[j + 1].color = Red;
+						pillars[j].color = Luna::Colors::Red;
+						pillars[j + 1].color = Luna::Colors::Red;
 					}
 				}
 			}
 			sortedAmount++;
-			myRandomVector[myRandomVector.size() - sortedAmount].hasBeenSorted = true;
-			myRandomVector[myRandomVector.size() - sortedAmount].color = { Luna::Colors::Green };
+			pillars[pillars.size() - sortedAmount].hasBeenSorted = true;
+			pillars[pillars.size() - sortedAmount].color = { Luna::Colors::Green };
 		}
 	}
 
@@ -128,15 +126,15 @@ namespace BubbleSort {
 			x = 5, 260 in amount covers screen
 
 		*/
-		for (int i = 0; i < myRandomVector.size(); i++)
+		for (int i = 0; i < pillars.size(); i++)
 		{
-			myRandomVector[i].transform.Scale.y = myRandomVector[i].value;
-			myRandomVector[i].transform.Scale.x = width; //Works with 260x in amount
+			pillars[i].transform.Scale.y = pillars[i].value;
+			pillars[i].transform.Scale.x = width; //Works with 260x in amount
 
-			myRandomVector[i].transform.Translation.y = 0;
-			myRandomVector[i].transform.Translation.x = i * myRandomVector[i].transform.Scale.x;
+			pillars[i].transform.Translation.y = 0;
+			pillars[i].transform.Translation.x = i * pillars[i].transform.Scale.x;
 
-			Luna::Renderer::Draw(myRandomVector[i].color, myRandomVector[i].transform.GetTransform());
+			Luna::Renderer::Draw(pillars[i].color, pillars[i].transform.GetTransform());
 		}
 	}
 }
@@ -174,10 +172,7 @@ int main()
 {
 	Luna::Application app("App");
 
-	//std::srand(time(0));
-
 	float lastFrameTime = 0.0f;
-	glm::vec4 Black = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 
 	while (app.IsRunning())
@@ -186,13 +181,17 @@ int main()
 		Luna::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 
-		app.Clear(Black);
+		app.Clear(0.0f, 0.0f, 0.0f, 1.0f);
 
-		//BubbleSort (Dataoriented approach)!
-		{
-			BubbleSort::Add(BubbleSort::GetAmountOfStartingElements()); // Takes amount (int)
-			BubbleSort::Sort(BubbleSort::GetSortState()); //Check if sorting can begin
-			BubbleSort::Render(BubbleSort::GetPillarWidth()); //Renders
+		{ 
+			// Amount of pillars (int)
+			BubbleSort::Add(BubbleSort::GetAmountOfStartingElements());
+
+			//Check if sorting can begin
+			BubbleSort::Sort(BubbleSort::GetSortState());
+
+			//Renders
+			BubbleSort::Render(BubbleSort::GetPillarWidth());
 		}
 
 		app.Display();
